@@ -1,9 +1,3 @@
-#  Talent Academy Core Project For EmakinaTR
-
-This project is the base / core application of Talent Academy For **Emakina.TR**
-
-
-
 ##  Umbraco CMS
 
 This project is being developed on top of Umbraco `v7.10.4`. 
@@ -35,12 +29,6 @@ To run this project on your local machine,
 
 > **Note:** Visual Studio has built-in IIS Express so if you have visual studio
 installed on your system you don't need to install IIS or IIS express. 
-
-To install this project on your local machine, go to directory that you want the project to be install in,
-
-download files and put files to that folder or clone the project to that directory using 
-
-`git clone "https://git.emakina.net/scm/emktr/base.git"`
 
 > **Important:** Normally Visual Studio restore packages located at packages.config and packages.json when building solution, 
 
