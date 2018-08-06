@@ -1,0 +1,72 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+<style>
+    @@media only screen and (min-width: 992px) {
+    aside {
+        z-index:999 !important;
+    }
+}
+</style>
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="/" class="brand-link" style="height:66px !important;padding:unset">
+        <img src="@Url.Content("~/media/1106/emakina-LogoHoriz-RGB-white.png")" alt="Logo" class="brand-image"
+             style="margin:16px; margin-left:44%">
+        <span class="brand-text font-weight-light" style="color:#343a40">.</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+
+                @{
+                    var selection = Model.Content.Site().Children()
+                                        .Where(x => x.IsVisible() && x.ContentType.Alias != "newsList");
+                }
+
+                @foreach (var item in selection)
+                {
+                    if (Umbraco.MemberHasAccess(item.Path))
+                    {
+                        <li class="nav-item has-treeview">
+                            <a href="@item.Url" class="nav-link active">
+                                <i class="nav-icon fa @item.GetPropertyValue("moduleIcon")"></i>
+                                <p>
+                                    @item.Name
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                @{
+                                    var subContent = Umbraco.Content(item.Id).Children();
+                                }
+                                <li class="nav-item">
+                                    <a href="@item.Url" class="nav-link">
+                                        <p>Dashboard</p>
+                                    </a>
+                                </li>
+
+                                @foreach (var subItem in subContent)
+                                {
+                                    <li class="nav-item">
+                                        <a href="@subItem.Url" class="nav-link">
+                                            <p>@subItem.Name</p>
+                                        </a>
+                                    </li>
+
+                                }
+
+                            </ul>
+                        </li>
+                    }
+                }
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

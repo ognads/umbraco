@@ -1,0 +1,152 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Candidate>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "Master.cshtml";
+}
+
+<select id="candidate-select" data-id="tags" style="width:100%"></select>
+@{
+    int id = CurrentPage.Id;
+    var tags = String.Join(",", Umbraco.TagQuery.GetTagsForEntity(id).Select(x => x.Text));
+    @Html.Editor("temp", string.IsNullOrEmpty(tags) ? "" : tags, new { htmlAttributes = new { @type = "hidden", @data_val = tags } });
+}
+<div class="card">
+    <div class="card-header d-flex p-0">
+        <ul class="nav nav-pills ml-auto p-2">
+            <li class="nav-item"><a class="nav-link active" href="#tab_0" data-toggle="tab">General</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab_1" data-toggle="tab">Address</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Education & Experience</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab_4" data-toggle="tab">Attachment</a></li>
+        </ul>
+    </div><!-- /.card-header -->
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab_0">
+                @{
+                    var adressField1 = Model.Content.GetPropertyValue("addressDescriptionLine1");
+                    var adressField2 = Model.Content.GetPropertyValue("addressDescriptionLine2");
+                    var birthday = Model.Content.GetPropertyValue("candidateBirthday");
+                }
+                <!-- Social Security Box -->
+                <strong><i class="fa fa-book mr-1"></i> Name</strong>
+
+                <p class="text-muted editable text" id="CandidateName" data-id="@Model.Content.Id">
+                    @Umbraco.Field("candidateName")
+                </p>
+
+                <hr>
+
+
+                <strong><i class="fa fa-book mr-1"></i> Surname</strong>
+
+                <p class="text-muted editable text" id="CandidateSurname" data-id="@Model.Content.Id">
+                    @Umbraco.Field("candidateSurname")
+                </p>
+
+                <hr>
+
+
+                <strong><i class="fa fa-map-marker mr-1"></i> Birthday</strong>
+                <p class="text-muted editable text" id="CandidateBirthday" data-id="@Model.Content.Id">
+                    @birthday
+                </p>
+
+
+                <hr>
+
+                <strong><i class="fa fa-book mr-1"></i> Email</strong>
+                <p class="text-muted editable text" id="CandidateEmail" data-id="@Model.Content.Id">
+                    @Umbraco.Field("candidateEmail")
+                </p>
+
+            </div>
+            <div class="tab-pane" id="tab_1">
+                <!-- Social Security Box -->
+                <strong><i class="fa fa-book mr-1"></i> Address</strong>
+
+                <p class="text-muted editable textarea" id="AddressLine1" data-id="@Model.Content.Id">
+                    @adressField1
+                </p>
+                <p class="text-muted editable textarea" id="AddressLine2" data-id="@Model.Content.Id">
+                    @adressField2
+                </p>
+
+
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="tab_2">
+                <strong><i class="fa fa-book mr-1"></i> Phone No</strong>
+
+                <p class="text-muted editable text" id="PhoneNumber" data-id="@Model.Content.Id">
+                    @Umbraco.Field("phoneNo")
+                </p>
+                <strong><i class="fa fa-book mr-1"></i> Alternative Email</strong>
+
+                <p class="text-muted editable text" id="AlternativeEmail" data-id="@Model.Content.Id">
+                    @Umbraco.Field("alternativeEmail")
+                </p>
+                <div class="card">
+                    <div class="card-header d-flex p-0">
+                        <h3 class="card-title p-3">Social Media</h3>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div id="social-medias" data-id="@Model.Content.Id"></div>
+                        <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
+                </div>
+                <!-- ./card -->
+
+
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="tab_3">
+                <!-- Social Security Box -->
+                <strong><i class="fa fa-book mr-1"></i> Candidate Work Experience</strong>
+                <br />
+                <br />
+                <div class="text-muted editable textarea" id="CandidateWorkExperience" data-id="@Model.Content.Id">
+                    @Umbraco.Field("candidateWorkExperience")
+                </div>
+                <br />
+
+                <hr>
+
+                <strong><i class="fa fa-map-marker mr-1"></i> Candidate Education</strong>
+                <br />
+                <br />
+                <div class="text-muted editable textarea" id="CandidateEducation" data-id="@Model.Content.Id">
+                    @Umbraco.Field("candidateEducation")
+                </div>
+                <hr>
+                <strong><i class="fa fa-map-marker mr-1"></i> Candidate Skills</strong>
+                <br />
+                <br />
+                <div class="text-muted editable textarea" id="CandidateSkills" data-id="@Model.Content.Id">
+                    @Umbraco.Field("candidateSkills")
+                </div>
+
+                <br />
+
+
+            </div>
+
+            <div class="tab-pane" id="tab_4">
+                <div id="attachments" data-id="@Model.Content.Id">
+                    @{ Html.RenderPartial("~/Views/Partials/Attachment/_Attachment.cshtml"); }
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- /.tab-content -->
+    </div><!-- /.card-body -->
+</div>
+
+<div id="commentSection"></div>
+<input type="hidden" value="candidate" id="contentType" />
+<div id="formOuter"></div>
+
+

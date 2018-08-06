@@ -1,0 +1,50 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.JobPost>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "Master.cshtml";
+}
+<br />
+<div class="card">
+    <div class="card-header d-flex p-0">
+        <h3 class="card-title p-3">
+            Job Description
+        </h3>
+        <button class="btn btn-primary sm copy"  style="float:right" id="copy" data-clipboard-target="#copy-element">Copy</button>
+    </div><!-- /.card-header -->
+    <div class="card-body" id="copy-element">
+        @if (@Umbraco.Field("jobOverview").ToString() != "")
+        {
+            @Umbraco.Field("jobOverview")
+        }
+        @if (@Umbraco.Field("jobDescription").ToString() != "")
+        {
+            <h5>What you'll do:</h5>
+            @Umbraco.Field("jobDescription")
+            <p><br /></p>
+        }
+        @if (@Umbraco.Field("neededSkills").ToString() != "")
+        {
+            <h5>What you'll definitely need:</h5>
+            @Umbraco.Field("neededSkills")
+            <p><br /></p>
+        }
+        @if (@Umbraco.Field("jobOffer").ToString() != "")
+        {
+            <h5>What we can offer:</h5>
+            @Umbraco.Field("jobOffer")
+            <p><br /></p>
+        }
+        @if (@Umbraco.Field("contactEmail").ToString() != "")
+        {
+            <h5>Contact:</h5>
+            @Umbraco.Field("contactEmail")
+        }
+
+    </div><!-- /.card-body -->
+</div>
+<br /><br />
+<h4>Candidates</h4>
+<br />
+<div id="candidates" data-id="@Model.Content.Id"></div>
+<textarea id="copy-target" style="position:absolute;
+  left:-9999px"></textarea>

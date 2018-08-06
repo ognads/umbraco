@@ -1,0 +1,68 @@
+﻿
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<baseCMS.Models.Entity>
+
+<div class="modal-header">
+    <h4 class="modal-title">Edit Entity (@Model.Name)</h4>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="modal-body" id="formOuter">
+
+    @using (Ajax.BeginForm("UpdateEntity", "EntitySurface", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "formOuter"
+    }))
+    {
+
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.LabelFor(e => e.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-12">
+                @Html.EditorFor(e => e.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(e => e.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(e => e.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-12">
+                @Html.TextAreaFor(e => e.Description, new { @class = "form-control richtext"  })
+                @Html.ValidationMessageFor(e => e.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.TextBoxFor(e => e.ID, new { @hidden = "true" })
+        <div class="form-group">
+            @Html.LabelFor(e => e.Organization, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-12">
+                @Html.DropDownListFor(e => e.Organization, baseCMS.Controllers.EmployeeApiController.GetEntities(),
+                    new { @class = "form-control" })
+                @Html.ValidationMessageFor(e => e.Organization, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="formSubmitButton">Save</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+    }
+
+</div>
+
+
+<script>
+    $(".richtext").trigger("click")
+    $("#formSubmitButton").click(function (e) {
+        e.preventDefault();
+        var form = $(this).closest('form');
+        console.log(form.valid())
+        form.submit();
+    })
+</script>
+
+
+
+
+
+

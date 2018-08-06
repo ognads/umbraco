@@ -1,0 +1,16 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+<div id="jobposts" data-id="-1"></div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            console.log("ready!");
+            $('.jobpostadd').prop('disabled', true);
+
+        });
+    </script>
+}
+

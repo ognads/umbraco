@@ -1,0 +1,29 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Position>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "Master.cshtml";
+}
+@{
+    string status = Model.Content.GetPropertyValue("status").ToString();
+    string action = status == "open" ? "Close" : "Open";
+}
+<button class="btn btn-secondary btn-sm @status" id="toggle-position">@action Position</button>
+<div id="board">
+    <div class="board-wrapper">
+        <header class="clear">
+            <ul></ul>
+        </header>
+        <section id="dashboard" class="board-dashboard clear"></section>
+    </div>
+</div>
+@section scripts{
+
+    <script>
+    @{
+        var positionId = CurrentPage.Id;
+        }
+    const id = @positionId;
+localStorage.setItem('positionId', id);
+
+    </script>
+}

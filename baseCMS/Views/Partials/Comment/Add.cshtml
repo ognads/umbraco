@@ -1,0 +1,53 @@
+﻿
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<baseCMS.Models.Comment>
+<li id="commentResponse">
+    <div class="comment-avatar" style="background:white;"> <img src="" id="memberImage" alt=""></div>
+    <div class="comment-box">
+        <div class="comment-head">
+            <h5 style="color:#828282;float:left">@{@Members.GetCurrentMember().GetPropertyValue("memberName")} </h5>
+            <button id="closebutton" type="button" class="btn btn-danger" style="float:right">X</button>
+        </div>
+
+        @using (Ajax.BeginForm("CreateComment", "CommentSurface", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "formOuter",
+        OnSuccess = "changeState"
+    }))
+    {
+        <div class="comment-content" style="padding:0px;padding-right:3px; padding-bottom:1px; padding-top:1px">
+            <div id="editSection">
+                @Html.ValidationMessageFor(e => e.Description, "", new { @class = "text-danger" })
+                @Html.TextArea("Description",new { @class="richtext", @id="newCommentDescription",@placeholder="Write your comment here...",@style="width:100%;height:100%"})
+                @Html.TextBoxFor(e => e.ParentComment, new { @class = "form-control", @id = "commentParentId", @hidden = true, @disable = true, @type = "text" })
+            </div>
+        </div>
+        <button type="submit" style="width:15% ; margin-left:0%" class="btn btn-primary" id="commentSubmitButton">Save</button>
+        <label style="float:right" id="responseState"></label>
+}
+
+    </div>
+</li>
+
+<script>
+    $(document).ready(function () {
+        $(".richtext").trigger("click");
+        let submitButton = $("#commentSubmitButton");
+        submitButton.click(function (e) {
+            //$("#newCommentDescription").val(tinyMCE.get("newCommentDescription").getContent());
+            e.preventDefault();
+            var form = $(this).closest('form');
+            submitButton.prop('disabled', true);
+            form.submit();
+        })
+        $("#closebutton").click(function () {
+            $("#commentResponse").remove();
+        });
+    });
+    function changeState() {
+        $("#responseState").text("Refreshing...");
+        $("#closeButton").click();
+    }
+</script>
+

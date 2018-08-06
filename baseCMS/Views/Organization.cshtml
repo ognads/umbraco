@@ -1,0 +1,29 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Organization>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "Master.cshtml";
+}
+
+<div id="news" data-id="@Model.Content.Children("newsList").Where(x => x.IsVisible()).First().Id">
+    <div class="card">
+        <div class="card-header p-2">
+            <h3 class="card-title">
+                <i class="fa fa-list-alt mr-1"></i>
+                Organization News
+            </h3>
+            <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 250px;">
+                    <input type="text" name="table_search" class="form-control float-right" id="news_search" placeholder="Search">
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="card-body">
+            <!-- The timeline -->
+            <ul class="timeline timeline-inverse" id="news_container"></ul>
+
+        </div>
+
+    </div>
+</div>

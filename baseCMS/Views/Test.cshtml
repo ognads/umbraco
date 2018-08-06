@@ -1,0 +1,26 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Test>
+    @using ContentModels = Umbraco.Web.PublishedContentModels;
+    @{
+    Layout = "Master.cshtml";
+    }
+    <table>
+        <tr>
+            <td>
+                <!-- Button to Open the Modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    Open thy modal
+                </button>
+            </td>
+
+        </tr>
+        <tr>
+            <td> <button id="toast-open-success" class="btn btn-primary">success</button></td>
+        </tr>
+        <tr>
+            <td> <button id="toast-open-error" class="btn btn-danger">error</button></td>
+            <td> <button id="loader-open" class="btn btn-danger">load</button></td>
+
+        </tr>
+        
+ 
+    </table>

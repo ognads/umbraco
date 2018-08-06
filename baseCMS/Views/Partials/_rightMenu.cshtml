@@ -1,0 +1,70 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using Umbraco.Core.Services;
+<aside class="control-sidebar control-sidebar-dark">
+
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+
+        @{
+            //Getting Member Info
+            //var service = ApplicationContext.Services;
+            var currenctMember = Umbraco.MembershipHelper.GetCurrentMember();
+            string memberName = currenctMember.GetPropertyValue("memberName").ToString() + " " + currenctMember.GetPropertyValue("memberSurname").ToString();
+            string memberEmail = currenctMember.GetPropertyValue("Email", "").ToString();
+            string memberImageUrl = currenctMember.GetPropertyValue("memberImageUrl", "").ToString();
+            int employeeContentId = Convert.ToInt32(currenctMember.GetPropertyValue("employeeContentId"));
+            var employeesPositionName = "-";
+            var employeesBirthday = "";
+            var enitityName = "";
+
+            //Getting member's employee info
+            var memberEmployee = Umbraco.Content(employeeContentId);
+            if(memberEmployee.id != 0)
+            {
+                //Getting employee's position
+                var employeesPosition = (IPublishedContent)memberEmployee.GetPropertyValue("position");
+                if (employeesPosition != null)
+                {
+                    employeesPositionName = employeesPosition.GetPropertyValue("positionName", "").ToString();
+                }
+
+                employeesBirthday = Convert.ToDateTime(memberEmployee.GetPropertyValue("employeeBirthday", "")).ToString("dd MMM yyyy");
+
+                //Getting employee's entity info
+                //var entityID = Convert.ToInt32(memberEmployee.GetPropertyValue("entityID", "0"));
+                
+                IPublishedContent entity = ((IPublishedContent)memberEmployee).Ancestor().Ancestor();
+                //var employeesEntity = Umbraco.Content(entityID);
+
+                enitityName = entity.GetPropertyValue("entityName", "-").ToString();
+
+
+
+            }
+
+
+        }
+
+        <div class="text-center">
+            <img class="profile-user-img img-fluid img-circle"
+                 src="@Url.Content(memberImageUrl)"
+                 alt="User profile picture">
+        </div>
+        <h3 class="profile-username-2 text-center">@memberName</h3>
+        <p class="text-muted text-center">@employeesPositionName</p>
+        <ul class="list-group list-group-unbordered mb-3">
+            <li >
+                <b>Email</b> <a class="float-right">@memberEmail</a>
+            </li><br />
+            <li >
+                <b>Birthdate</b> <a class="float-right">@employeesBirthday</a>
+            </li><br />
+            <li >
+                <b>Entity</b> <a class="float-right">@enitityName</a>
+            </li><br />
+        </ul><br />
+        <a href="~/umbraco/surface/auth/logout" class="btn btn-primary btn-block"><b>Logout</b></a>
+
+
+    </div>
+</aside>

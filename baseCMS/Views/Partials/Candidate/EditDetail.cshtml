@@ -1,0 +1,96 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<baseCMS.Models.Candidate>
+@using (Ajax.BeginForm("EditDetail", "CandidateSurface", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "formOuter"
+}))
+{
+    @Html.AntiForgeryToken()
+
+
+    @Html.LabelFor(model => model.CandidateName, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.CandidateName, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.CandidateName, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(model => model.CandidateMiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.CandidateMiddleName, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.CandidateMiddleName, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(model => model.CandidateSurname, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.CandidateSurname, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.CandidateSurname, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(model => model.CandidateEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.CandidateEmail, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.CandidateEmail, "", new { @class = "text-danger" })
+    @Html.LabelFor(model => model.CandidateBirthday, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.CandidateBirthday, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+    @Html.ValidationMessageFor(model => model.CandidateBirthday, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control " } })
+    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+    @Html.LabelFor(model => model.HealthKnownIssues, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.AlternativeEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.AlternativeEmail, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.AlternativeEmail, "", new { @class = "text-danger" })
+
+
+
+    @Html.LabelFor(model => model.CandidateWorkExperience, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.TextAreaFor(model => model.CandidateWorkExperience, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.CandidateWorkExperience, "", new { @class = "text-danger" })
+    @Html.LabelFor(model => model.CandidateEducation, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.TextAreaFor(model => model.CandidateEducation, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.CandidateEducation, "", new { @class = "text-danger" })
+    @Html.LabelFor(model => model.CandidateSkills, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.TextAreaFor(model => model.CandidateSkills, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.CandidateSkills, "", new { @class = "text-danger" })
+
+
+    @Html.LabelFor(model => model.AddressLine1, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.AddressLine1, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger" })
+    @Html.LabelFor(model => model.AddressLine2, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.AddressLine2, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(model => model.PostalCode, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(model => model.Longitude, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
+    @Html.LabelFor(model => model.Latitude, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
+    @Html.DropDownListFor(model => model.CandidateGender, new List<SelectListItem> { new SelectListItem { Text = "Male", Value = "Male" }, new SelectListItem { Text = "Female", Value = "Female" } }, new { @class = "form-control", @type = "hidden" })
+
+
+    @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-control", @type = "hidden" } })
+    <div class="buttons">
+        <button class="btn btn-primary submit" id="formSubmitButton">submit</button>
+    </div>
+
+}
+
+<script>
+    $.validator.unobtrusive.parse($('#formSubmitButton').closest('form'));
+    $("#formSubmitButton").click(function (e) {
+        e.preventDefault();
+        var form = $(this).closest('form');
+        form.submit();
+    })
+</script>
+
+

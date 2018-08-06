@@ -1,0 +1,64 @@
+﻿
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<baseCMS.Models.SocialMedia>
+
+<div class="modal-header">
+    <h4 class="modal-title">Add New Social Media - <%employeeInfo%></h4>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="modal-body" id="formOuter">
+
+    @using (Ajax.BeginForm("CreateSocialMedia", "SocialMediaSurface", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "formOuter"
+    }))
+    {
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Url)
+            <div class="col-md-12">
+                @Html.TextBoxFor(model => model.Url, new { @class = "form-control", })
+                @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.TextBoxFor(s => s.ParentId, new { @hidden = "true", @class = "form-control", @type = "text", @id = "socialmediaparent" })
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="formSubmitButton">Save</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+    }
+
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $(".modal-title").text($(".modal-title").text().replace("<%employeeInfo%>", $(".profile-username").text()));
+    });
+    $("#formSubmitButton").click(function (e) {
+        e.preventDefault();
+        $('#idInput').val(5);
+        $('#socialmediaparent').val($('#selfId').data('id'))
+
+        var form = $(this).closest('form');
+        
+        form.submit();
+    })
+</script>
+
+
+
+
+
+

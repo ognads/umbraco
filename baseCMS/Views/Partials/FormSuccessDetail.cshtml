@@ -1,0 +1,20 @@
+﻿﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+
+<script type="text/javascript">
+    setTimeout(() => {
+        const editedItem = JSON.parse(localStorage.getItem('editedItem'));
+        const editedItemArea = JSON.parse(localStorage.getItem('editedItemArea'));
+        if (editedItem.newValue) {
+            $('#' + editedItem.id).html(editedItem.newValue)
+        } else {
+            $('#' + editedItem.id).html(editedItemArea.newValue)
+        }
+        
+        const $editIcon = $('<i class="fa fa-pencil" style="cursor:pointer"></i>');
+        $editIcon.appendTo($('#' + editedItem.id));
+    }, 500);
+    
+    setTimeout(() => {
+        editMode = false
+    }, 100);
+</script>

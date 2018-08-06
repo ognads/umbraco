@@ -1,0 +1,139 @@
+﻿@model baseCMS.Models.ChartData
+<div class="col-sm-6" @*style="float:left"*@>
+    @{
+        string Id = Model.Title.Replace(" ", "");
+    }
+    <div>
+        <div hidden id="chartTitle_@Id" data-title="@Model.Title"></div>
+        <div hidden id="chartStyle_@Id" data-style="@Model.Style"></div>
+        <canvas id="chartCanvas_@Id"></canvas>
+    </div>
+    <ul>
+        @foreach (KeyValuePair<String, Object> item in Model.KeyValues)
+        {
+            <li class="chartKeyValues_@Id" data-key="@item.Key" data-value="@item.Value">
+            </li>
+        }
+    </ul>
+</div>
+
+
+
+<script src="~/scripts/chartjs/Chart.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let chartId = "_@Id"
+        let ctx = document.getElementById("chartCanvas" + chartId).getContext('2d');
+        let string = "chartStyle" + chartId;
+        let style = $("#" + "chartStyle" + chartId+"").data("style");
+        let title = $("#" + "chartTitle" + chartId).data("title");
+        let labelChart = $('.chartKeyValues' + chartId).map(function () {
+            return $(this).data('key');
+        }).get();
+        let dataChart = $('.chartKeyValues' + chartId).map(function () {
+            return $(this).data('value');
+        }).get();
+        let chartData = setOptionsByStyle(style, title, dataChart, labelChart);
+        var chart = new Chart(ctx, chartData);
+    });
+
+    function setOptionsByStyle(style, title,dataChart,labelChart) {
+        switch (style) {
+            case "pie":
+                return {
+                    type: style,
+                        data: {
+                        datasets: [{
+                            data: dataChart,
+                            backgroundColor: colorGenerator(labelChart.length),
+                            label: title
+                        }],
+                            labels: labelChart,
+                    },
+                    options: {
+                        //legend: { display: false },
+                        responsive: true,
+                        title: {
+                            display: true,
+                            text: title
+                        }
+                    }
+                };
+            case "bar":
+                return {
+                    type: style,
+                    data: {
+                        datasets: [{
+                            data: dataChart,
+                            backgroundColor: colorGenerator(labelChart.length),
+                            label: title
+                        }],
+                        labels: labelChart,
+                    },
+                    options: {
+                        legend: { display: false },
+                        responsive: true,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        title: {
+                            display: true,
+                            text: title
+                        }
+                    }
+                };
+            case "line":
+                return {
+                    type: style,
+                    data: {
+                        datasets: [{
+                            data: dataChart,
+                            borderColor: colorGenerator(labelChart.length),
+                            fill:false,
+                            label: title
+                        }],
+                        labels: labelChart,
+                    },
+                    options: {
+                        responsive: true,
+                        title: {
+                            display: true,
+                            text: title
+                        }
+                    }
+                };
+            default:
+                return {
+                    type: style,
+                    data: {
+                        datasets: [{
+                            data: dataChart,
+                            backgroundColor: colorGenerator(labelChart.length),
+                            label: title
+                        }],
+                        labels: labelChart,
+                    },
+                    options: {
+                        //legend: { display: false },
+                        responsive: true,
+                        title: {
+                            display: true,
+                            text: title
+                        }
+                    }
+                };
+        }
+    }
+    function colorGenerator(count) {
+        let colors = new Array(count);
+        for (let looper = 0; looper < count; looper++) {
+            colors[looper]= '#' + Math.floor(Math.random() * 16777215).toString(16);
+        }
+        return colors;
+    }
+</script>
+

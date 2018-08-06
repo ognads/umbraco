@@ -1,0 +1,155 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>@CurrentPage.Name</title>
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="@Url.Content("~/dist/main.css")">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />*@
+    @RenderSection("styles", required: false)
+    @{
+        Html.EnableClientValidation();
+        Html.EnableUnobtrusiveJavaScript();
+    }
+</head>
+<div id="selfId" data-id="@CurrentPage.Id"></div>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+        <!-- If member is not logged in then we are redirecting to login page -->
+        @if (!Umbraco.MemberIsLoggedOn())
+        {
+            Response.Redirect("~/umbraco/surface/auth/login");
+        }
+
+        <!-- Navbar -->
+        @Html.Partial("_header")
+        <!-- /.navbar -->
+        <!-- Left Menu -->
+        @Html.Partial("_leftMenu")
+        <!-- /.Left Menu -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-12 float-left">
+                            <ol class="breadcrumb float-sm-left">
+                                @if (CurrentPage.Ancestors().Any())
+                                {
+                                    foreach (var page in CurrentPage.Ancestors().OrderBy("Level"))
+                                    {
+                                        <li class="breadcrumb-item"><a href="@page.Url">@page.Name</a></li>
+                                    }
+
+                                }
+                                <li class="breadcrumb-item active">@CurrentPage.Name</li>
+
+                            </ol>
+                        </div><!-- /.col -->
+                        <div class="col-sm-12  ">
+                            <h1 class="m-0 text-dark">@CurrentPage.Name</h1>
+                        </div><!-- /.col -->
+                    </div><!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+                <!-- Main content -->
+                <div class="content">
+
+                    <div class="container-fluid">
+                        @RenderBody()
+                    </div><!-- /.container-fluid -->
+                </div>
+                <!-- /.content -->
+                <!-- .toast -->
+                <div id="toast-container" style="padding: 50px;  margin-left: 100px; position: fixed;right: 0;bottom: 0.4%;">
+                </div>
+                <!-- /.toast -->
+            </div>
+            <!-- /.content-wrapper -->
+            <!-- Modal -->
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.Modal -->
+            <!-- .Loader -->
+            <div id="loader"></div>
+            <!-- /.Loader -->
+        </div>
+        <!-- Right menu  -->
+        @if (Umbraco.MemberIsLoggedOn())
+        {
+            @Html.Partial("_rightMenu")
+        }
+
+        <!-- ./Right menu  -->
+    </div>
+    <!-- ./wrapper -->
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    @*<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+         <!-- jQuery -->
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+         <!-- Js bundle -->
+         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+
+         @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/b-print-1.5.1/cr-1.4.1/r-2.2.1/sl-1.2.5/datatables.min.css" />
+             <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.16/b-1.5.1/b-html5-1.5.1/b-print-1.5.1/cr-1.4.1/r-2.2.1/sl-1.2.5/datatables.min.js"></script>
+
+
+        <script src="/scripts/jquery.validate.min.js"></script>
+             <script src="/scripts/jquery.validate.unobtrusive.min.js"></script>
+             <script src="/scripts/jquery.unobtrusive-ajax.js"></script>*@
+
+    <script src="~/dist/main.js"></script>
+    <!-- Incude jQueryUI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+
+    <script>
+        //search autocomplete
+        $("#search").autocomplete({
+            //it can be fixed when or if we bundle this code snippet
+            source: function (request, response) {
+                $.ajax({
+                    url: `/umbraco/api/searchapi/search?term=` + $("#search").val(),
+                    type: "POST",
+                    success: function (data) {
+                        response(data);
+                    }
+                })
+            },
+            //bring results to front of main header
+            open: function () {
+                $(".ui-autocomplete:visible").css({ "z-index": "10000" });
+            },
+            //on select redirect
+            select: function (e, ui) {
+                location.href = ui.item.Url;
+            },
+            //min search length
+            minLength: 2
+        })
+    </script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
