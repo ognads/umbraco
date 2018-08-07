@@ -25,7 +25,6 @@ This project includes
 
 To run this project on your local machine, 
 - you need to have microsoft IIS or IIS Express installed on your machine.
-- You can only access the project if you have the ip address of the Emakina.TR organisation
 
 > **Note:** Visual Studio has built-in IIS Express so if you have visual studio
 installed on your system you don't need to install IIS or IIS express. 
