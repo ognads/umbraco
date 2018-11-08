@@ -28,8 +28,8 @@ namespace baseCMS.Controllers
             string baseUrl = System.Configuration.ConfigurationManager.AppSettings["baseUrl"];
             GoogleOAuthClient oauth = new GoogleOAuthClient
             {
-                ClientId = "294363892122-pjmvvd2sn62ktg2mgobnj597bhipljs5.apps.googleusercontent.com",
-                ClientSecret = "S3Zp_9GehwoFbUW3GCKXY7JJ",
+                ClientId = "clientId",
+                ClientSecret = "clientSecret",
                 RedirectUri = baseUrl + "/umbraco/surface/auth/login"
             };
             // Handle if an error occurs during the Google authentication (eg. if the user cancels the login)
